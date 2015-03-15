@@ -28,7 +28,7 @@
 #
 # History:
 # 2015-03-15
-#	revision 1.0
+#    revision 1.0
 #
 # Usage: /fullwidth to convert text to fullwidth ('/help fullwidth' for help)
 
@@ -37,63 +37,63 @@ import sys
 
 import_ok = True
 try:
-	import weechat
+    import weechat
 except ImportError:
-	print('This script must be run under WeeChat.')
-	print('Get WeeChat now at: http://www.weechat.org/')
-	import_ok = False
+    print('This script must be run under WeeChat.')
+    print('Get WeeChat now at: http://www.weechat.org/')
+    import_ok = False
 
 if sys.version_info[0] == 3:
-		def unichr(i):
-			return chr(i)
+        def unichr(i):
+            return chr(i)
 
-SCRIPT_NAME		= 'fullwidth'
-SCRIPT_AUTHOR	= 'cer'
-SCRIPT_VERSION	= '1.0'
-SCRIPT_LICENSE	= 'BSD'
-SCRIPT_DESC		= 'Convert text to fullwidth'
+SCRIPT_NAME        = 'fullwidth'
+SCRIPT_AUTHOR      = 'cer'
+SCRIPT_VERSION     = '1.0'
+SCRIPT_LICENSE     = 'BSD'
+SCRIPT_DESC        = 'Convert text to fullwidth'
 
 
 def fullwidth(input):
-	FULLWIDTH_OFFSET = 65248
-	output = [unichr(ord(c) + FULLWIDTH_OFFSET)
-			if re.match(r'[A-Za-z0-9\-_+=,.:;|<>?!@#$%^&*()\'"\\/\[\]{}~`]', c)
-			else c for c in input]
-	return ''.join(output)
+    FULLWIDTH_OFFSET = 65248
+    output = [unichr(ord(c) + FULLWIDTH_OFFSET)
+            if re.match(r'[A-Za-z0-9\-_+=,.:;|<>?!@#$%^&*()\'"\\/\[\]{}~`]', c)
+            else c for c in input]
+    return ''.join(output)
 
 
 def fullwidth_cmd_cb(data, buffer, args):
-	input = args.decode('UTF-8')
-	input_method = 'command'
-	if not input:
-		input = weechat.buffer_get_string(buffer, 'input')
-		input = input.decode('UTF-8')
-		input_method = 'keybinding'
+    input = args.decode('UTF-8')
+    input_method = 'command'
+    if not input:
+        input = weechat.buffer_get_string(buffer, 'input')
+        input = input.decode('UTF-8')
+        input_method = 'keybinding'
 
-	output = fullwidth(input)
+    output = fullwidth(input)
 
-	if input_method == 'keybinding':
-		weechat.buffer_set(buffer, 'input', output.encode('UTF-8'))
-	else:
-		weechat.command(buffer, output.encode('UTF-8'))
-	return weechat.WEECHAT_RC_OK
+    if input_method == 'keybinding':
+        weechat.buffer_set(buffer, 'input', output.encode('UTF-8'))
+    else:
+        weechat.command(buffer, output.encode('UTF-8'))
+    return weechat.WEECHAT_RC_OK
 
 
 if __name__ == '__main__':
-	if import_ok:
-		if weechat.register(SCRIPT_NAME,
-							SCRIPT_AUTHOR,
-							SCRIPT_VERSION,
-							SCRIPT_LICENSE,
-							SCRIPT_DESC,
-							'',
-							''):
-			weechat.hook_command('fullwidth',
-								 SCRIPT_DESC,
-								 'text',
-								 'text: text to be converted to fullwidth',
-								 '',
-								 'fullwidth_cmd_cb',
-								 '')
-	else:
-		print(fullwidth(' '.join(sys.argv[1:])))
+    if import_ok:
+        if weechat.register(SCRIPT_NAME,
+                            SCRIPT_AUTHOR,
+                            SCRIPT_VERSION,
+                            SCRIPT_LICENSE,
+                            SCRIPT_DESC,
+                            '',
+                            ''):
+            weechat.hook_command('fullwidth',
+                                 SCRIPT_DESC,
+                                 'text',
+                                 'text: text to be converted to fullwidth',
+                                 '',
+                                 'fullwidth_cmd_cb',
+                                 '')
+    else:
+        print(fullwidth(' '.join(sys.argv[1:])))
