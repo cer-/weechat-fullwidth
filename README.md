@@ -6,6 +6,6 @@ Usage
 ---
 
 ```
-/python load fullwidth
+/python load fullwidth.py
 /fullwidth text
 ```
