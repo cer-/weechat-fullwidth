@@ -56,7 +56,7 @@ SCRIPT_DESC        = 'Convert text to fullwidth'
 def fullwidth(input):
     FULLWIDTH_OFFSET = 65248
     output = [unichr(ord(c) + FULLWIDTH_OFFSET)
-            if re.match(r'[A-Za-z0-9\-_+=,.:;|<>?!@#$%^&*()\'"\\/\[\]{}~`]', c)
+            if re.match(r'[A-Za-z0-9\-_+=,.:;|<>?!@#$%^&*()\'"\\/\[\]{}~` ]', c)
             else c for c in input]
     return ''.join(output)
 
